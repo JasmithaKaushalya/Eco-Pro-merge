@@ -17,7 +17,7 @@ app.use("/api/activity",require("./routes/activityRoutes"));
 const {errorHandler} = require("./middleware/errorMiddleware");
 app.use(errorHandler);
 
-const PORT =process.env.PORT || 5000;
-app.listen(PORT,()=>{
-    console.log(`server running on port ${PORT}`);
+const port = process.env.PORT || 8080; // Azure provides process.env.PORT
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
