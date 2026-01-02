@@ -1,7 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 
 const ActivityPage = () => {
+
+    const[transport, setTransport] = useState('')
+    const[electricity, setElectricity] = useState('')
+    const[waste, setWaste] = useState('')
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        const token = localStorage.getItem.token
+
+        const response = await fetch('http://localhost:5000/api/activity/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                transport,
+                electricity: Number(electricity),
+                waste
+            })
+        })
+
+        const data = await response.json()
+        console.log(data)
+        alert('Activity saved successfully')
+    }
+
   return (
     <motion.div 
     initial={{opacity:0}}
@@ -32,10 +60,10 @@ const ActivityPage = () => {
                 </div>
             </div>
             <div>
-                <form action="" className='bg-white dark:bg-lime-400/20 shadow-xl w-full max-w-md p-6 rounded-xl max-h-[90vh] overflow-y-auto'>
+                <form onSubmit={handleSubmit} action="" className='bg-white dark:bg-lime-400/20 shadow-xl w-full max-w-md p-6 rounded-xl max-h-[90vh] overflow-y-auto'>
                     <div className=''>
                         <label htmlFor="transport" className='block font-bold text-xl'>Transport</label>
-                        <select className='bg-white appearance-none py-3 px-4 w-[300px] rounded-xl mt-5 text-center'> 
+                        <select value={transport} onChange={(e)=>setTransport(e.target.value)} className='bg-white appearance-none py-3 px-4 w-[300px] rounded-xl mt-5 text-center'> 
                             <option value="">Select transport type</option>
                             <option value="car">Car</option>
                             <option value="bus">Bus</option>
@@ -44,18 +72,18 @@ const ActivityPage = () => {
                     </div>
                     <div>
                         <label htmlFor="electricity" className='block font-bold text-xl mt-5'>Electricity</label>
-                        <input type="number" placeholder='Electricity (units)' className='bg-white py-3 px-4 w-[300px] rounded-xl mt-5' />
+                        <input value={electricity} onChange={(e)=>setElectricity(e.target.value)} type="number" placeholder='Electricity (units)' className='bg-white py-3 px-4 w-[300px] rounded-xl mt-5' />
                     </div>
                     <div>
                         <label htmlFor="waste" className='block font-bold text-xl mt-5'>Waste</label>
-                        <select className='bg-white appearance-none py-3 px-4 w-[300px] rounded-xl mt-5 text-center'> 
-                            <option value="">Select transport type</option>
+                        <select value={waste} onChange={(e)=>setWaste(e.target.value)} className='bg-white appearance-none py-3 px-4 w-[300px] rounded-xl mt-5 text-center'> 
+                            <option value="">Select waste type</option>
                             <option value="plastic">Plastic</option>
                             <option value="organic">Organic</option>
                         </select>
                         <div className='flex justify-center space-x-10 items-center mt-10'>
                             <div className='bg-lime-400 px-5 py-3 rounded-2xl hover:text-white hover:scale-105 transition-all duration-500'>
-                                <button className='font-bold'>Submit</button>
+                                <button type='submit' className='font-bold'>Submit</button>
                             </div>
                             <div className='bg-lime-400 px-5 py-3 rounded-2xl hover:text-white hover:scale-105 transition-all duration-500'>
                                 <button className='font-bold'>Cancel</button>
