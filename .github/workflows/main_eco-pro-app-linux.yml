@@ -20,19 +20,21 @@ jobs:
         with:
           node-version: '22.x'
 
-      # STEP 1: Build the Vite Frontend
+      # 1. Build Frontend (This worked in your log, keep it)
       - name: Install and Build Frontend
         working-directory: ./client
         run: |
           npm install
           npm run build
 
-      # STEP 2: Install Backend Dependencies (in the root or /server)
-      - name: Install Backend
-        # If your backend is in a folder called 'server', add: working-directory: ./server
+      # 2. Build Backend (Adjust "working-directory" if your backend is in a folder)
+      - name: Install Backend Dependencies
+        # If your backend is in a folder called 'server', change below to: ./server
+        # If it is in the root, and you have a package.json there, keep as: .
+        working-directory: . 
         run: npm install
 
-      # STEP 3: Bundle everything for Azure
+      # 3. Bundle everything
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
