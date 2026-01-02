@@ -31,7 +31,7 @@ jobs:
       - name: Install Backend Dependencies
         # If your backend is in a folder called 'server', change below to: ./server
         # If it is in the root, and you have a package.json there, keep as: .
-        working-directory: . 
+        working-directory: ./server
         run: npm install
 
       # 3. Bundle everything
@@ -56,3 +56,4 @@ jobs:
           app-name: 'eco-pro-app-linux'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0DA18BDBE94544289D1CEE99B7FC1F5F }}
+
